@@ -10,7 +10,7 @@ argument-hint: [база] [ru|en]
 ## Аргументы
 
 1. В `$ARGUMENTS` слово `ru` или `en` задает язык. Остальное это база.
-2. База не задана, удаленная основная ветка `origin/<ветка>` через `git symbolic-ref --short refs/remotes/origin/HEAD`, иначе `origin/main`, `origin/master` или `origin/develop`, что есть. Задана, бери `origin/<ветка>`, если такая есть на remote. Перед диффом `git fetch origin <ветка>`.
+2. База не задана, удаленная основная ветка `origin/<ветка>` через `git symbolic-ref --short refs/remotes/origin/HEAD`, иначе `origin/main`, `origin/master` или `origin/develop`, что есть. Задана, бери `origin/<ветка>`, если такая есть на remote, иначе локальную ветку. Перед диффом `git fetch origin <ветка>`.
 
 ## Что собрать
 

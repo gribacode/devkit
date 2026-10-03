@@ -1,6 +1,6 @@
 # Правила TypeScript
 
-Граница. React в `review-react.md`, Nest в `review-nest.md`, рантайм Node в `stack-node.md`. Здесь только система типов.
+Охват. React в `review-react.md`, Nest в `review-nest.md`, рантайм Node в `stack-node.md`. Здесь только система типов.
 
 1. `any` нет. На границах (ответ API, `JSON.parse`, `catch`) тип `unknown` и сужение через схему (zod, valibot) или type guard.
 2. `as` только с комментарием, почему компилятор не выводит тип сам. `as unknown as X` это ошибка дизайна.

@@ -1,6 +1,6 @@
 # Правила Node.js
 
-Граница. Nest в `review-nest.md`, типы в `stack-typescript.md`. Здесь рантайм серверного кода.
+Охват. Nest в `review-nest.md`, типы в `stack-typescript.md`. Здесь рантайм серверного кода.
 
 1. Нет висящих промисов. Каждый промис либо под `await`, либо `void` с явным `.catch`.
 2. На `unhandledRejection` и `uncaughtException` процесс логирует и завершается, а не живет в неизвестном состоянии.

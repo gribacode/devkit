@@ -46,4 +46,4 @@ argument-hint: [YYYY-MM-DD | вчера]
 
 ## Стиль
 
-Правила из `${CLAUDE_PLUGIN_ROOT}/refs/style.md`. Дефис в диапазоне времени разрешен. Перед отправкой проверь текст.
+Правила из `${CLAUDE_PLUGIN_ROOT}/refs/style.md`. Перед отправкой проверь текст.
