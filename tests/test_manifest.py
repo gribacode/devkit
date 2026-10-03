@@ -38,7 +38,7 @@ class ManifestTest(unittest.TestCase):
 
     def test_plugin_version(self) -> None:
         with open(os.path.join(ROOT, ".claude-plugin", "plugin.json")) as f:
-            self.assertEqual(json.load(f)["version"], "0.3.0")
+            self.assertEqual(json.load(f)["version"], "0.4.0")
 
 
 class BrokenInputTest(HookTestCase):

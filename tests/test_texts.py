@@ -93,7 +93,7 @@ class TextsTest(unittest.TestCase):
                 self.assertIn("Адаптировано из mattpocock/skills (MIT), `%s`." % source, f.read(), rel)
 
     def test_new_commands_are_manual_only(self) -> None:
-        for name in ("grill.md", "handoff.md", "architecture.md", "arch.md"):
+        for name in ("grill.md", "handoff.md", "architecture.md", "arch.md", "note.md"):
             path = os.path.join(ROOT, "commands", name)
             if not os.path.exists(path):
                 self.fail("нет %s" % name)
@@ -129,6 +129,16 @@ class TextsTest(unittest.TestCase):
         self.assertIn("ARCHITECTURE.md", skill)
         self.assertIn("lint:arch", skill)
         self.assertTrue(os.path.isfile(os.path.join(ROOT, "refs", "arch", "steiger.config.ts")))
+
+    def test_note_command(self) -> None:
+        with open(os.path.join(ROOT, "commands", "note.md"), encoding="utf-8") as f:
+            text = f.read()
+        for word in ("DEVKIT_NOTES", "Как писать конспекты.md", "Шаблоны/Конспект.md", "черновик", "#проверить"):
+            self.assertIn(word, text, word)
+        with open(os.path.join(ROOT, "commands", "commands.md"), encoding="utf-8") as f:
+            self.assertIn("/note <тема>", f.read())
+        with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as f:
+            self.assertIn("DEVKIT_NOTES", f.read())
 
     def test_review_and_check_read_arch_contract(self) -> None:
         with open(os.path.join(ROOT, "commands", "review.md"), encoding="utf-8") as f:
