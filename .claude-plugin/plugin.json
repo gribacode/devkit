@@ -1,7 +1,7 @@
 {
   "name": "devkit",
-  "version": "0.1.0",
-  "description": "Ревью, описание MR и PR, отработка ревью, учет времени и защитные хуки для фуллстека React и NestJS",
+  "version": "0.2.0",
+  "description": "Ревью, описание MR и PR, отработка ревью, учет времени, проверки и защитные хуки для TS, Node.js, Python, Docker и nginx",
   "author": {
     "name": "Александр Грибашов",
     "email": "gribacode@gmail.com"

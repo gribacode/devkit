@@ -31,6 +31,11 @@ devkit
 /check [база]  lint, типы, тесты
 /agent-lint [путь]  agnix по конфигам агента
 
+Обдумать
+/grill [тема]  допрос по плану
+/architecture [путь]  углубление модулей
+/handoff [задача]  передача в новую сессию
+
 Справка
 /commands  этот список
 ```
@@ -40,8 +45,9 @@ devkit
 3. Ниже группы «Пользовательские» и «Проект <имя папки>», если там есть файлы. Пустые группы не показывай.
 4. Последние две строки.
    1. Хуки devkit и их события из `hooks.json` одной строкой.
-   2. Выключатели `DEVKIT_ACTIVITY DEVKIT_NOTIFY DEVKIT_GUARD DEVKIT_FORMAT DEVKIT_TSC`, значение 0 выключает.
+   2. Выключатели `DEVKIT_ACTIVITY DEVKIT_NOTIFY DEVKIT_GUARD DEVKIT_FORMAT DEVKIT_TSC DEVKIT_TYPES`, значение 0 выключает. `DEVKIT_TESTS=1` включает тесты на Stop.
 5. Если команда devkit перекрыта встроенной или чужой с тем же именем, покажи ее как `/devkit:<имя>`.
+6. Скиллы devkit из `${CLAUDE_PLUGIN_ROOT}/skills/*/SKILL.md` одной строкой через пробел, они срабатывают сами.
 
 ## Стиль
 

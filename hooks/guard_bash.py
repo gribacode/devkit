@@ -127,6 +127,38 @@ def _check_misc(t: List[str]) -> Optional[str]:
     return None
 
 
+PUBLISH = {("npm", "publish"), ("pnpm", "publish"), ("yarn", "publish"), ("twine", "upload"), ("uv", "publish"),
+           ("poetry", "publish")}
+
+
+def _check_docker(t: List[str]) -> Optional[str]:
+    if not t:
+        return None
+    if t[0] == "docker-compose":
+        rest = t[1:]
+    elif t[0] == "docker" and t[1:2] == ["compose"]:
+        rest = t[2:]
+    else:
+        rest = None
+    if rest is not None:
+        if "down" in rest and {"-v", "--volumes"} & set(rest[rest.index("down") + 1:]):
+            return "docker compose down -v удалит тома с данными"
+        return None
+    if t[0] == "docker" and t[1:3] in (["volume", "rm"], ["volume", "prune"]):
+        return "docker volume %s удалит данные в томах" % t[2]
+    if t[0] == "docker" and t[1:3] == ["system", "prune"]:
+        return "docker system prune удалит образы, тома и кеш"
+    return None
+
+
+def _check_publish(t: List[str]) -> Optional[str]:
+    if "--dry-run" in t:
+        return None
+    if tuple(t[:2]) in PUBLISH or t[:3] == ["yarn", "npm", "publish"]:
+        return "публикацию пакета делаешь ты сам"
+    return None
+
+
 def check_command(command: str) -> Optional[str]:
     if not command.strip():
         return None
@@ -141,7 +173,7 @@ def check_command(command: str) -> Optional[str]:
             if reason:
                 return reason
             continue
-        for check in (_check_rm, _check_git, _check_prisma, _check_misc):
+        for check in (_check_rm, _check_git, _check_prisma, _check_docker, _check_publish, _check_misc):
             reason = check(t)
             if reason:
                 return reason

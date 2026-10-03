@@ -6,10 +6,24 @@ import unittest
 from tests.helpers import ROOT
 
 REF_RE = re.compile(r"\$\{CLAUDE_PLUGIN_ROOT\}/([\w./-]+\.(?:md|py))")
+FRONTMATTER_RE = re.compile(r"\A---\n(.*?)\n---\n", re.S)
+STACK_SKILLS = {"typescript", "node", "python", "docker", "nginx"}
+ADAPTED = {
+    "refs/codebase-design.md": "skills/engineering/codebase-design/SKILL.md",
+    "skills/codebase-design/DEEPENING.md": "skills/engineering/codebase-design/DEEPENING.md",
+    "skills/codebase-design/DESIGN-IT-TWICE.md": "skills/engineering/codebase-design/DESIGN-IT-TWICE.md",
+    "skills/writing-for-agents/SKILL.md": "skills/productivity/writing-for-agents/SKILL.md",
+    "skills/writing-for-agents/SKILL-MECHANICS.md": "skills/productivity/writing-for-agents/SKILL-MECHANICS.md",
+    "refs/grilling.md": "skills/productivity/grilling/SKILL.md",
+    "commands/handoff.md": "skills/productivity/handoff/SKILL.md",
+    "commands/architecture.md": "skills/engineering/improve-codebase-architecture/SKILL.md",
+    "refs/architecture-report.md": "skills/engineering/improve-codebase-architecture/HTML-REPORT.md",
+}
 
 
 def texts() -> list:
-    return sorted(glob.glob(os.path.join(ROOT, "refs", "*.md")) + glob.glob(os.path.join(ROOT, "commands", "*.md")))
+    found = glob.glob(os.path.join(ROOT, "refs", "*.md")) + glob.glob(os.path.join(ROOT, "commands", "*.md"))
+    return sorted(found + glob.glob(os.path.join(ROOT, "skills", "**", "*.md"), recursive=True))
 
 
 def prose_lines(path: str) -> list:
@@ -27,7 +41,8 @@ def prose_lines(path: str) -> list:
 class TextsTest(unittest.TestCase):
     def test_refs_exist(self) -> None:
         names = {"style.md", "review-principles.md", "review-react.md", "review-nest.md", "review-shared.md",
-                 "pr-structure.md"}
+                 "pr-structure.md", "stack-typescript.md", "stack-node.md", "stack-python.md", "stack-docker.md",
+                 "stack-nginx.md"}
         self.assertTrue(names <= {os.path.basename(p) for p in glob.glob(os.path.join(ROOT, "refs", "*.md"))})
 
     def test_no_yo_and_no_dashes_in_prose(self) -> None:
@@ -57,6 +72,48 @@ class TextsTest(unittest.TestCase):
             text = f.read()
         self.assertNotIn("--body-file -", text)
         self.assertIn("без префикса `origin/`", text)
+
+    def test_skill_frontmatter(self) -> None:
+        skills = glob.glob(os.path.join(ROOT, "skills", "*", "SKILL.md"))
+        self.assertTrue(STACK_SKILLS <= {os.path.basename(os.path.dirname(p)) for p in skills})
+        for path in skills:
+            with open(path, encoding="utf-8") as f:
+                match = FRONTMATTER_RE.match(f.read())
+            self.assertIsNotNone(match, path)
+            fields = dict(line.split(": ", 1) for line in match.group(1).splitlines() if ": " in line)
+            self.assertEqual(fields.get("name"), os.path.basename(os.path.dirname(path)), path)
+            description = fields.get("description", "")
+            self.assertTrue(0 < len(description) <= 120, path)
+            self.assertNotIn(":", description, path)
+
+    def test_adapted_files_credit_source(self) -> None:
+        for rel, source in ADAPTED.items():
+            with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
+                self.assertIn("Адаптировано из mattpocock/skills (MIT), `%s`." % source, f.read(), rel)
+
+    def test_new_commands_are_manual_only(self) -> None:
+        for name in ("grill.md", "handoff.md", "architecture.md"):
+            path = os.path.join(ROOT, "commands", name)
+            if not os.path.exists(path):
+                self.fail("нет %s" % name)
+            with open(path, encoding="utf-8") as f:
+                self.assertIn("disable-model-invocation: true", f.read(), name)
+
+    def test_review_and_check_cover_stacks(self) -> None:
+        with open(os.path.join(ROOT, "commands", "review.md"), encoding="utf-8") as f:
+            review = f.read()
+        for name in ("stack-typescript.md", "stack-node.md", "stack-python.md", "stack-docker.md", "stack-nginx.md",
+                     "codebase-design.md"):
+            self.assertIn("${CLAUDE_PLUGIN_ROOT}/refs/" + name, review, name)
+        with open(os.path.join(ROOT, "commands", "check.md"), encoding="utf-8") as f:
+            check = f.read()
+        for word in ("ruff check", "pytest", "hadolint", "docker compose", "nginx -t", "biome", "oxlint"):
+            self.assertIn(word, check, word)
+
+
+    def test_writing_for_agents_yields_to_writing_skills(self) -> None:
+        with open(os.path.join(ROOT, "skills", "writing-for-agents", "SKILL.md"), encoding="utf-8") as f:
+            self.assertIn("При расхождении прав `superpowers:writing-skills`", f.read())
 
 
 if __name__ == "__main__":

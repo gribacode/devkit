@@ -8,7 +8,7 @@
     {
       "name": "devkit",
       "source": "./",
-      "description": "Ревью, описание MR и PR, отработка ревью, учет времени и защитные хуки для фуллстека React и NestJS"
+      "description": "Ревью, описание MR и PR, отработка ревью, учет времени, проверки и защитные хуки для TS, Node.js, Python, Docker и nginx"
     }
   ]
 }

@@ -38,7 +38,7 @@
       {
         "hooks": [
           { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/activity.py\"", "timeout": 5 },
-          { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/stop.py\"", "timeout": 120 }
+          { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/stop.py\"", "timeout": 240 }
         ]
       }
     ]
