@@ -15,6 +15,7 @@ argument-hint: [база]
    4. Нет скрипта `lint`, но есть `biome.json`, запусти `biome check`. Есть `.oxlintrc.json`, запусти `oxlint`.
    5. Есть `schema.prisma` в затронутом пакете, `prisma validate`.
    6. Монорепо на turbo и затронуто много пакетов, можно одной командой `pnpm turbo run lint typecheck test --filter=...[<база>]`.
+   7. Есть скрипт `lint:arch`, запусти его после `lint`. Это границы архитектуры из `ARCHITECTURE.md`. Нет скрипта, depcruise сам не запускай. Нет бинаря `node_modules/.bin/depcruise`, пропусти с одной строкой. Перед запуском проверь видимость, `npx depcruise <root> --output-type json` в файл и затем `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/arch_contract.py modules` и `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/arch_contract.py unresolved` на этом файле. Модулей 0 или есть нерезолвленные свои импорты, это падение, проверка архитектуры ничего не видит. Частая причина это TypeScript 7 без парсера swc, лечится `/arch check`.
 3. Python. Для каждого `.py` ближайший вверх `pyproject.toml`.
    1. Раннер по lock-файлу. `uv.lock` это `uv run`, `poetry.lock` это `poetry run`, иначе бинари из `.venv/bin`.
    2. `ruff check`, если ruff настроен в проекте.

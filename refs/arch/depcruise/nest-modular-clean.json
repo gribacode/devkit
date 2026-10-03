@@ -1,0 +1,11 @@
+{
+  "forbidden": [
+    {"name": "nmc-public-api", "severity": "error", "from": {"path": "^__ROOT__/modules/([^/]+)/"}, "to": {"path": "^__ROOT__/modules/[^/]+/.+", "pathNot": ["^__ROOT__/modules/$1/", "^__ROOT__/modules/[^/]+/index\\.ts$"]}, "comment": "Чужой модуль только через index.ts"},
+    {"name": "nmc-domain-inner", "severity": "error", "from": {"path": "^__ROOT__/modules/[^/]+/domain/"}, "to": {"path": "^__ROOT__/modules/[^/]+/(application|infrastructure|presentation)/"}, "comment": "domain ни от чего не зависит"},
+    {"name": "nmc-domain-no-framework", "severity": "error", "from": {"path": "^__ROOT__/modules/[^/]+/domain/"}, "to": {"path": ["(^|node_modules/)@nestjs/[^/]+(/|$)", "(^|node_modules/)(@prisma/client|typeorm|mongoose|@mikro-orm/[^/]+|drizzle-orm)(/|$)"]}, "comment": "domain без Nest и ORM"},
+    {"name": "nmc-application-inner", "severity": "error", "from": {"path": "^__ROOT__/modules/[^/]+/application/"}, "to": {"path": "^__ROOT__/modules/[^/]+/(infrastructure|presentation)/"}, "comment": "application видит только domain"},
+    {"name": "nmc-presentation-no-infrastructure", "severity": "error", "from": {"path": "^__ROOT__/modules/[^/]+/presentation/"}, "to": {"path": "^__ROOT__/modules/[^/]+/infrastructure/"}, "comment": "presentation зовет application"},
+    {"name": "nmc-orm-in-infrastructure", "severity": "error", "from": {"path": "^__ROOT__/", "pathNot": ["^__ROOT__/modules/[^/]+/infrastructure/", "^__ROOT__/(shared|database|prisma)/"]}, "to": {"path": "(^|node_modules/)(@prisma/client|typeorm|mongoose|@mikro-orm/[^/]+|drizzle-orm)(/|$)"}, "comment": "ORM только в infrastructure"},
+    {"name": "nmc-shared-no-modules", "severity": "error", "from": {"path": "^__ROOT__/shared/"}, "to": {"path": "^__ROOT__/modules/"}, "comment": "shared не импортирует модули"}
+  ]
+}

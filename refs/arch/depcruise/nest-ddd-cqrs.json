@@ -1,0 +1,9 @@
+{
+  "forbidden": [
+    {"name": "ddd-context-contracts", "severity": "error", "from": {"path": "^__ROOT__/contexts/([^/]+)/"}, "to": {"path": "^__ROOT__/contexts/[^/]+/", "pathNot": ["^__ROOT__/contexts/$1/", "^__ROOT__/contexts/[^/]+/contracts/"]}, "comment": "Чужой контекст только через contracts"},
+    {"name": "ddd-domain-inner", "severity": "error", "from": {"path": "^__ROOT__/contexts/[^/]+/domain/"}, "to": {"path": "^__ROOT__/contexts/[^/]+/(application|infrastructure|presentation)/"}, "comment": "domain ни от чего не зависит"},
+    {"name": "ddd-domain-no-framework", "severity": "error", "from": {"path": "^__ROOT__/contexts/[^/]+/domain/"}, "to": {"path": ["(^|node_modules/)@nestjs/[^/]+(/|$)", "(^|node_modules/)(@prisma/client|typeorm|mongoose|@mikro-orm/[^/]+|drizzle-orm)(/|$)"]}, "comment": "domain без Nest и ORM"},
+    {"name": "ddd-application-inner", "severity": "error", "from": {"path": "^__ROOT__/contexts/[^/]+/application/"}, "to": {"path": "^__ROOT__/contexts/[^/]+/(infrastructure|presentation)/"}, "comment": "application видит только domain и contracts"},
+    {"name": "ddd-shared-no-contexts", "severity": "error", "from": {"path": "^__ROOT__/shared/"}, "to": {"path": "^__ROOT__/contexts/"}, "comment": "shared не импортирует контексты"}
+  ]
+}

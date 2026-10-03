@@ -617,7 +617,7 @@ if __name__ == "__main__":
 - [ ] **Step 7: Прогони живой тест на настоящем depcruise**
 
 ```bash
-mkdir -p "${TMPDIR:-/tmp}/devkit-depcruise" && cd "${TMPDIR:-/tmp}/devkit-depcruise" && npm init -y >/dev/null && npm i -D dependency-cruiser@18 typescript >/dev/null
+mkdir -p "${TMPDIR:-/tmp}/devkit-depcruise" && cd "${TMPDIR:-/tmp}/devkit-depcruise" && npm init -y >/dev/null && npm i -D dependency-cruiser@18 typescript@5 >/dev/null
 cd - && DEVKIT_DEPCRUISE="${TMPDIR:-/tmp}/devkit-depcruise/node_modules/.bin/depcruise" python3 -m unittest tests.test_arch_live -v
 ```
 

@@ -1,0 +1,5 @@
+{
+  "forbidden": [
+    {"name": "ed-cross-feature", "severity": "error", "from": {"path": "^__ROOT__/features/([^/]+)/"}, "to": {"path": "^__ROOT__/features/", "pathNot": "^__ROOT__/features/$1/"}, "comment": "В medium фича не импортирует фичу"}
+  ]
+}

@@ -22,6 +22,8 @@
 5. Одна команда `/arch` с подкомандами `init`, `detect`, `check`. Имя `/architecture` уже занято углублением модулей.
 6. `edlint` (Evolution Design) версии 0.0.9 `/arch init` не ставит. Если в проекте уже есть `evo.config.ts`, `lint:arch` запускает и его. Импорты ED проверяет dependency-cruiser.
 7. Шаблоны правил хранятся в JSON (`depcruise/<id>.json`), а не в `.cjs`. Python из stdlib их читает, подставляет корень исходников и пишет в проект самодостаточный `.dependency-cruiser.cjs`. CI проекта не зависит от devkit. Правила всех 8 архитектур проверены на dependency-cruiser 18.5.0 на примерах с нарушением каждого правила.
+8. dependency-cruiser 18 разбирает TS только через typescript ниже 7. С TypeScript 7 он молча не видит `.ts`, и проверка всегда зеленая. `arch_contract.py parser` смотрит установленный typescript, при 7 и выше контракт получает `options.parser: "swc"` и зависимость `@swc/core`. `/arch` проверяет командой `arch_contract.py modules`, что depcruise видит модули. Найдено на этапе исполнения, swc проверен на всех 8 архитектурах.
+9. После финального ревью. `node_modules` не исключается из анализа, иначе правила про ORM, Nest и React не видят установленные пакеты. tsconfig для конфига выбирает `arch_contract.py tsconfig`, он идет по `references`, как у Vite. `ignore` из frontmatter идет флагом `--ignore` в `options.exclude`. `arch_contract.py unresolved` перечисляет нерезолвленные свои импорты, `/arch` и `/check` считают их падением.
 
 ## Ориентиры
 

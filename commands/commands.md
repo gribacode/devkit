@@ -29,6 +29,7 @@ devkit
 
 Проверки
 /check [база]  lint, типы, тесты
+/arch init|detect|check  архитектура проекта
 /agent-lint [путь]  agnix по конфигам агента
 
 Обдумать

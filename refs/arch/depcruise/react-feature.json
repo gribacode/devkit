@@ -1,0 +1,7 @@
+{
+  "forbidden": [
+    {"name": "feature-cross", "severity": "error", "from": {"path": "^__ROOT__/features/([^/]+)/"}, "to": {"path": "^__ROOT__/features/", "pathNot": "^__ROOT__/features/$1/"}, "comment": "Фича не импортирует фичу, композиция в app"},
+    {"name": "feature-no-app", "severity": "error", "from": {"path": "^__ROOT__/features/"}, "to": {"path": "^__ROOT__/app/"}, "comment": "Фича не импортирует app"},
+    {"name": "feature-shared-up", "severity": "error", "from": {"path": "^__ROOT__/(components|hooks|lib|utils|types|config|stores|api|assets|testing)/"}, "to": {"path": "^__ROOT__/(app|features)/"}, "comment": "Общий код не импортирует фичи и app"}
+  ]
+}

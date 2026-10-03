@@ -1,0 +1,8 @@
+{
+  "forbidden": [
+    {"name": "clean-domain-inner", "severity": "error", "from": {"path": "^__ROOT__/domain/"}, "to": {"path": "^__ROOT__/(application|infrastructure|ui|presentation)/"}, "comment": "domain ни от чего не зависит"},
+    {"name": "clean-domain-no-libs", "severity": "error", "from": {"path": "^__ROOT__/domain/"}, "to": {"path": "(^|node_modules/)(react|react-dom|axios|ky|@tanstack/[^/]+)(/|$)"}, "comment": "domain без React и HTTP-клиентов"},
+    {"name": "clean-application-inner", "severity": "error", "from": {"path": "^__ROOT__/application/"}, "to": {"path": "^__ROOT__/(infrastructure|ui|presentation)/"}, "comment": "application видит только domain и свои порты"},
+    {"name": "clean-infrastructure-no-ui", "severity": "error", "from": {"path": "^__ROOT__/infrastructure/"}, "to": {"path": "^__ROOT__/(ui|presentation)/"}, "comment": "Адаптеры не импортируют UI"}
+  ]
+}
