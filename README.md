@@ -5,18 +5,18 @@
 ## Установка
 
 ```bash
+claude plugin marketplace add gribacode/devkit
+claude plugin install devkit@devkit
+```
+
+Из локального клона.
+
+```bash
 claude plugin marketplace add ~/Documents/code/devkit
 claude plugin install devkit@devkit
 ```
 
 После установки перезапусти Claude Code. Список команд `/commands`.
-
-С GitHub, когда репозиторий будет опубликован.
-
-```bash
-claude plugin marketplace add <github-user>/devkit
-claude plugin install devkit@devkit
-```
 
 ## Команды
 
