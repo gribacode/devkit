@@ -1,0 +1,14 @@
+{
+  "name": "devkit",
+  "owner": {
+    "name": "Александр Грибашов",
+    "email": "gribacode@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "devkit",
+      "source": "./",
+      "description": "Ревью, описание MR и PR, отработка ревью, учет времени и защитные хуки для фуллстека React и NestJS"
+    }
+  ]
+}
