@@ -12,7 +12,8 @@ claude plugin install devkit@devkit
 Из локального клона.
 
 ```bash
-claude plugin marketplace add ~/Documents/code/devkit
+git clone https://github.com/gribacode/devkit.git
+claude plugin marketplace add ./devkit
 claude plugin install devkit@devkit
 ```
 
