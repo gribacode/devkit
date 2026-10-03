@@ -28,6 +28,7 @@ claude plugin install devkit@devkit
 | `/worklog [заметка]` | чекпоинт или созвон в журнал |
 | `/report [дата]` | отчет за день по времени |
 | `/check [база]` | lint, типы, тесты по затронутым пакетам JS, Python, Docker, nginx |
+| `/arch init\|detect\|check [путь]` | выбор архитектуры React или NestJS, детект в существующем коде, проверка границ с baseline |
 | `/grill [тема]` | допрос по плану раундами с рекомендуемыми ответами |
 | `/architecture [путь]` | HTML-отчет с кандидатами на углубление модулей и разбор выбранного |
 | `/handoff [задача]` | документ для следующей сессии в `$TMPDIR` |
@@ -59,6 +60,18 @@ pipx install gixy-ng
 Срабатывают сами по ситуации. `typescript`, `node`, `python`, `docker`, `nginx` ведут на правила в `refs/stack-*.md`, те же правила читает `/review`. `codebase-design` про глубокие модули и швы. `writing-for-agents` про CLAUDE.md и AGENTS.md.
 
 `/grill`, `/handoff`, `/architecture`, `codebase-design` и `writing-for-agents` адаптированы из [mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
+
+## Архитектура
+
+`/arch` держит проект в одной из 8 архитектур. React: `react-fsd`, `react-feod`, `react-evolution`, `react-feature`, `react-clean`. NestJS: `nest-standard`, `nest-modular-clean`, `nest-ddd-cqrs`. Каталог с матрицей выбора в `refs/arch/catalog.md`.
+
+В проект пишется контракт. `ARCHITECTURE.md`, `.dependency-cruiser.cjs`, baseline `.dependency-cruiser-known-violations.json`, для FSD `steiger.config.ts`, скрипт `lint:arch`. Старые нарушения в baseline не валят проверку, новые валят. Проверка работает в CI и без Claude.
+
+Скилл `arch-rules` раскладывает новый код по контракту, `/review` и `/check` его читают.
+
+```bash
+DEVKIT_DEPCRUISE=<путь к depcruise> python3 -m unittest tests.test_arch_live -v
+```
 
 ## Разработка
 

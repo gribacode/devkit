@@ -22,7 +22,8 @@ ADAPTED = {
 
 
 def texts() -> list:
-    found = glob.glob(os.path.join(ROOT, "refs", "*.md")) + glob.glob(os.path.join(ROOT, "commands", "*.md"))
+    found = glob.glob(os.path.join(ROOT, "refs", "**", "*.md"), recursive=True)
+    found += glob.glob(os.path.join(ROOT, "commands", "*.md"))
     return sorted(found + glob.glob(os.path.join(ROOT, "skills", "**", "*.md"), recursive=True))
 
 
@@ -92,7 +93,7 @@ class TextsTest(unittest.TestCase):
                 self.assertIn("Адаптировано из mattpocock/skills (MIT), `%s`." % source, f.read(), rel)
 
     def test_new_commands_are_manual_only(self) -> None:
-        for name in ("grill.md", "handoff.md", "architecture.md"):
+        for name in ("grill.md", "handoff.md", "architecture.md", "arch.md"):
             path = os.path.join(ROOT, "commands", name)
             if not os.path.exists(path):
                 self.fail("нет %s" % name)
@@ -114,6 +115,37 @@ class TextsTest(unittest.TestCase):
     def test_writing_for_agents_yields_to_writing_skills(self) -> None:
         with open(os.path.join(ROOT, "skills", "writing-for-agents", "SKILL.md"), encoding="utf-8") as f:
             self.assertIn("При расхождении прав `superpowers:writing-skills`", f.read())
+
+    def test_arch_command(self) -> None:
+        with open(os.path.join(ROOT, "commands", "arch.md"), encoding="utf-8") as f:
+            text = f.read()
+        for word in ("scripts/arch_detect.py", "scripts/arch_contract.py", "--output-type baseline",
+                     "steiger-debt", "lint-script", "`[]`", "arch_contract.py parser", "--parser swc", "@swc/core",
+                     "arch_contract.py modules", "arch_contract.py tsconfig", "arch_contract.py unresolved",
+                     "--ignore", "cd <пакет>", "нет бинаря", "TS18003", "## init", "## detect", "## check", "ARCHITECTURE.md"):
+            self.assertIn(word, text, word)
+        with open(os.path.join(ROOT, "skills", "arch-rules", "SKILL.md"), encoding="utf-8") as f:
+            skill = f.read()
+        self.assertIn("ARCHITECTURE.md", skill)
+        self.assertIn("lint:arch", skill)
+        self.assertTrue(os.path.isfile(os.path.join(ROOT, "refs", "arch", "steiger.config.ts")))
+
+    def test_review_and_check_read_arch_contract(self) -> None:
+        with open(os.path.join(ROOT, "commands", "review.md"), encoding="utf-8") as f:
+            review = f.read()
+        self.assertIn("ARCHITECTURE.md", review)
+        self.assertIn(".dependency-cruiser-known-violations.json", review)
+        with open(os.path.join(ROOT, "commands", "check.md"), encoding="utf-8") as f:
+            check = f.read()
+        for word in ("lint:arch", "arch_contract.py modules", "arch_contract.py unresolved", "depcruise"):
+            self.assertIn(word, check, word)
+        for name in ("review-react.md", "review-nest.md"):
+            with open(os.path.join(ROOT, "refs", name), encoding="utf-8") as f:
+                self.assertIn("ARCHITECTURE.md", f.read(), name)
+        with open(os.path.join(ROOT, "commands", "commands.md"), encoding="utf-8") as f:
+            self.assertIn("/arch init|detect|check", f.read())
+        with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as f:
+            self.assertIn("/arch", f.read())
 
 
 if __name__ == "__main__":

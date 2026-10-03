@@ -1,0 +1,11 @@
+{
+  "forbidden": [
+    {"name": "fsd-layers-pages", "severity": "error", "from": {"path": "^__ROOT__/pages/"}, "to": {"path": "^__ROOT__/(app)/"}, "comment": "Слой импортирует только слои ниже"},
+    {"name": "fsd-layers-widgets", "severity": "error", "from": {"path": "^__ROOT__/widgets/"}, "to": {"path": "^__ROOT__/(app|pages)/"}, "comment": "Слой импортирует только слои ниже"},
+    {"name": "fsd-layers-features", "severity": "error", "from": {"path": "^__ROOT__/features/"}, "to": {"path": "^__ROOT__/(app|pages|widgets)/"}, "comment": "Слой импортирует только слои ниже"},
+    {"name": "fsd-layers-entities", "severity": "error", "from": {"path": "^__ROOT__/entities/"}, "to": {"path": "^__ROOT__/(app|pages|widgets|features)/"}, "comment": "Слой импортирует только слои ниже"},
+    {"name": "fsd-layers-shared", "severity": "error", "from": {"path": "^__ROOT__/shared/"}, "to": {"path": "^__ROOT__/(app|pages|widgets|features|entities)/"}, "comment": "Слой импортирует только слои ниже"},
+    {"name": "fsd-cross-slice", "severity": "error", "from": {"path": "^__ROOT__/(pages|widgets|features|entities)/([^/]+)/"}, "to": {"path": "^__ROOT__/$1/", "pathNot": ["^__ROOT__/$1/$2/", "^__ROOT__/entities/[^/]+/@x/"]}, "comment": "Слайс не импортирует соседа по слою, у entities только через @x"},
+    {"name": "fsd-public-api", "severity": "error", "from": {"path": "^__ROOT__/([^/]+)/([^/]+)/"}, "to": {"path": "^__ROOT__/(pages|widgets|features|entities)/[^/]+/.+", "pathNot": ["^__ROOT__/$1/$2/", "^__ROOT__/(pages|widgets|features|entities)/[^/]+/index\\.(ts|tsx|js|jsx)$", "^__ROOT__/entities/[^/]+/@x/"]}, "comment": "Снаружи слайса только через index"}
+  ]
+}

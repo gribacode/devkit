@@ -1,0 +1,9 @@
+{
+  "forbidden": [
+    {"name": "feod-common-isolated", "severity": "error", "from": {"path": "^__ROOT__/common/"}, "to": {"path": "^__ROOT__/(app|pages|modules|global)/"}, "comment": "common не импортирует код проекта"},
+    {"name": "feod-modules-up", "severity": "error", "from": {"path": "^__ROOT__/modules/"}, "to": {"path": "^__ROOT__/(app|pages)/"}, "comment": "Модули не импортируют pages и app"},
+    {"name": "feod-pages-up", "severity": "error", "from": {"path": "^__ROOT__/pages/"}, "to": {"path": "^__ROOT__/app/"}, "comment": "Из app никто не импортирует"},
+    {"name": "feod-no-global-import", "severity": "error", "from": {"path": "^__ROOT__/", "pathNot": "^__ROOT__/global/"}, "to": {"path": "^__ROOT__/global/"}, "comment": "global доступен без импорта"},
+    {"name": "feod-public-api", "severity": "error", "from": {"path": "^__ROOT__/([^/]+)/([^/]+)/"}, "to": {"path": "^__ROOT__/modules/[^/]+/.+", "pathNot": ["^__ROOT__/$1/$2/", "^__ROOT__/modules/[^/]+/index\\.(ts|tsx|js|jsx)$"]}, "comment": "Снаружи модуля только через index"}
+  ]
+}

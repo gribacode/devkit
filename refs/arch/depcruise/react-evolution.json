@@ -1,0 +1,8 @@
+{
+  "forbidden": [
+    {"name": "ed-no-app", "severity": "error", "from": {"path": "^__ROOT__/(features|services|shared)/"}, "to": {"path": "^__ROOT__/app/"}, "comment": "Из app никто не импортирует"},
+    {"name": "ed-no-features", "severity": "error", "from": {"path": "^__ROOT__/(services|shared)/"}, "to": {"path": "^__ROOT__/features/"}, "comment": "services и shared не импортируют features"},
+    {"name": "ed-shared-no-services", "severity": "error", "from": {"path": "^__ROOT__/shared/"}, "to": {"path": "^__ROOT__/services/"}, "comment": "shared не импортирует services"},
+    {"name": "ed-public-api", "severity": "error", "from": {"path": "^__ROOT__/([^/]+)/([^/]+)/"}, "to": {"path": "^__ROOT__/(features|services)/[^/]+/.+", "pathNot": ["^__ROOT__/$1/$2/", "^__ROOT__/(features|services)/[^/]+/index\\.(ts|tsx|js|jsx)$"]}, "comment": "Снаружи модуля только через index"}
+  ]
+}

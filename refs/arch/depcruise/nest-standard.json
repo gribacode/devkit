@@ -1,0 +1,8 @@
+{
+  "forbidden": [
+    {"name": "nest-controller-no-orm", "severity": "error", "from": {"path": "\\.(controller|resolver)\\.ts$"}, "to": {"path": "(^|node_modules/)(@prisma/client|typeorm|mongoose|@mikro-orm/[^/]+|drizzle-orm)(/|$)"}, "comment": "Контроллер и резолвер зовут сервис, не ORM"},
+    {"name": "nest-controller-no-repository", "severity": "error", "from": {"path": "\\.(controller|resolver)\\.ts$"}, "to": {"path": "\\.repository\\.ts$"}, "comment": "Контроллер и резолвер зовут сервис, не репозиторий"},
+    {"name": "nest-foreign-internals", "severity": "error", "from": {"path": "^__ROOT__/([^/]+)/"}, "to": {"path": "^__ROOT__/[^/]+/.+", "pathNot": ["^__ROOT__/$1/", "\\.(module|service)\\.ts$", "/dto/", "^__ROOT__/(common|config|shared)/", "^node_modules/"]}, "comment": "У чужого модуля можно брать только module, service и dto"},
+    {"name": "nest-common-no-features", "severity": "error", "from": {"path": "^__ROOT__/(common|config|shared)/"}, "to": {"path": "^__ROOT__/", "pathNot": ["^__ROOT__/(common|config|shared)/", "^node_modules/"]}, "comment": "common и config не импортируют модули фич"}
+  ]
+}

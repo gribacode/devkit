@@ -30,7 +30,8 @@ argument-hint: [база | ссылка на MR/PR]
    6. В диффе `Dockerfile*`, `*.Dockerfile`, `compose*.yml`, `docker-compose*.yml`, прочитай `${CLAUDE_PLUGIN_ROOT}/refs/stack-docker.md`.
    7. В диффе `.conf` в каталогах `nginx`, `conf.d`, `sites-*` или с именем `nginx*.conf`, прочитай `${CLAUDE_PLUGIN_ROOT}/refs/stack-nginx.md`.
    8. Дифф добавляет модуль или меняет экспортируемый интерфейс, прочитай `${CLAUDE_PLUGIN_ROOT}/refs/codebase-design.md` и добавь ось дизайна модулей. Иначе не читай.
-   9. Всегда прочитай `${CLAUDE_PLUGIN_ROOT}/refs/review-shared.md`.
+   9. Есть `ARCHITECTURE.md` в пакете измененных файлов, прочитай его. Новые и перенесенные файлы сверь с разделом «Куда класть», импорты с разделом «Импорты». Нарушение это `[архитектура]`. Дифф добавляет записи в `.dependency-cruiser-known-violations.json`, это `[архитектура]` и блокер, новое нарушение спрятали в baseline.
+   10. Всегда прочитай `${CLAUDE_PLUGIN_ROOT}/refs/review-shared.md`.
 
 ## Как ревьюим
 
