@@ -33,6 +33,18 @@ BLOCKED = [
     "cat .env",
     "head -n 5 apps/api/.env.local",
     "source .env",
+    "(cd apps/api && git push)",
+    "echo $(git push)",
+    "`git push`",
+    'bash -c "git push"',
+    'sh -c "rm -rf /"',
+    "env git push",
+    "command git push",
+    "nohup git push",
+    "time git push",
+    "/usr/bin/git push",
+    "find . | xargs rm -rf /",
+    "sleep 1 & git push",
 ]
 
 ALLOWED = [
@@ -49,6 +61,12 @@ ALLOWED = [
     "pnpm prisma db push",
     "pnpm prisma migrate dev",
     "curl -s https://api.example.com | jq .",
+    'echo "x && git push now"',
+    'rg -n "git push|git commit -m" docs',
+    'git log --format="%h | git push origin"',
+    'echo "done; sudo nothing"',
+    "cat > deploy.sh <<'EOF'\ngit push origin main\nEOF",
+    "cat <<EOF > notes.md\nrm -rf /\nEOF\necho ok",
     "",
 ]
 

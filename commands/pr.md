@@ -10,7 +10,7 @@ argument-hint: [база] [ru|en]
 ## Аргументы
 
 1. В `$ARGUMENTS` слово `ru` или `en` задает язык. Остальное это база.
-2. База не задана, основная ветка через `git symbolic-ref --short refs/remotes/origin/HEAD`, иначе `main`, `master` или `develop`, что есть.
+2. База не задана, удаленная основная ветка `origin/<ветка>` через `git symbolic-ref --short refs/remotes/origin/HEAD`, иначе `origin/main`, `origin/master` или `origin/develop`, что есть. Задана, бери `origin/<ветка>`, если такая есть на remote. Перед диффом `git fetch origin <ветка>`.
 
 ## Что собрать
 
@@ -35,9 +35,9 @@ argument-hint: [база] [ru|en]
 ## Формат вывода
 
 1. Заголовок и тело в одном блоке кода `markdown`, первая строка блока это заголовок, дальше пустая строка и тело.
-2. После блока готовая команда создания, сама ее не запускай.
-   1. GitLab `glab mr create --title "<заголовок>" --description "$(cat <<'EOF' ... EOF)" --target-branch <база>`.
-   2. GitHub `gh pr create --title "<заголовок>" --body-file - --base <база>`.
+2. После блока готовая команда создания, сама ее не запускай. Целевая ветка в ней без префикса `origin/`, например `main`. Тело передается через heredoc.
+   1. GitLab `glab mr create --title "<заголовок>" --target-branch <ветка> --description "$(cat <<'EOF' ... EOF)"`.
+   2. GitHub `gh pr create --title "<заголовок>" --base <ветка> --body "$(cat <<'EOF' ... EOF)"`.
 3. Ничего не создавать, не пушить, не коммитить.
 
 ## Стиль

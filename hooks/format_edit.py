@@ -33,9 +33,11 @@ def run_prettier(path: str, env: dict) -> None:
     prettier = find_bin(os.path.dirname(path), "prettier")
     if not prettier:
         return
+    # prettier читает .prettierignore из cwd, поэтому запускаем из его каталога
+    ignore = find_up(os.path.dirname(path), [".prettierignore"])
+    cwd = os.path.dirname(ignore) if ignore else os.path.dirname(path)
     try:
-        subprocess.run([prettier, "--write", path], capture_output=True, timeout=15, env=env,
-                       cwd=os.path.dirname(path))
+        subprocess.run([prettier, "--write", path], capture_output=True, timeout=15, env=env, cwd=cwd)
     except (OSError, subprocess.TimeoutExpired):
         pass
 

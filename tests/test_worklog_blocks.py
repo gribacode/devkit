@@ -83,6 +83,23 @@ class WorklogBlocksTest(HookTestCase):
         ]))
         self.assertEqual(self.blocks(), [("09:00", "09:30", "work", "DEV-5"), ("10:00", "10:30", "work", "DEV-9")])
 
+    def test_blocked_stop_extends_to_last_stop(self) -> None:
+        self.activity(row("11:00", "UserPromptSubmit"), row("11:05", "Stop"), row("11:30", "Stop"))
+        self.assertEqual(self.blocks(), [("11:00", "11:30", "work", "DEV-1")])
+
+    def test_topics_follow_block_task_and_overlap(self) -> None:
+        self.activity(
+            row("09:00", "UserPromptSubmit", session="a", branch="feature/ABC-1", topic="a1"),
+            row("09:05", "UserPromptSubmit", session="b", branch="feature/ABC-2", topic="b1"),
+            row("09:40", "Stop", session="b", branch="feature/ABC-2"),
+            row("10:30", "Stop", session="a", branch="feature/ABC-1"),
+        )
+        self.write("wl/%s.md" % DAY, "- 09:20-09:30 (10м) [call] созвон\n")
+        result = compute(DAY, os.path.join(self.home, "wl"))
+        got = [(b["start"], b["task"] or b["title"], b["topics"]) for b in result["blocks"]]
+        self.assertEqual(got, [("09:00", "ABC-2", ["b1"]), ("09:20", "созвон", []), ("09:30", "ABC-2", ["b1"]),
+                               ("09:40", "ABC-1", ["a1"])])
+
     def test_empty_day(self) -> None:
         os.makedirs(os.path.join(self.home, "wl"))
         result = compute(DAY, os.path.join(self.home, "wl"))

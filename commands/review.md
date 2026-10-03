@@ -9,8 +9,8 @@ argument-hint: [база | ссылка на MR/PR]
 
 ## Что ревьюим
 
-1. `$ARGUMENTS` пуст. База это основная ветка, `git symbolic-ref --short refs/remotes/origin/HEAD` и часть после `origin/`. Если origin/HEAD не задан, возьми ту из `main`, `master`, `develop`, что есть, и сверь через `git merge-base`.
-2. `$ARGUMENTS` имя ветки. Она и есть база.
+1. `$ARGUMENTS` пуст. База это удаленная основная ветка `origin/<ветка>`, ее дает `git symbolic-ref --short refs/remotes/origin/HEAD` как есть. Если origin/HEAD не задан, возьми `origin/main`, `origin/master` или `origin/develop`, что есть. Перед диффом `git fetch origin <ветка>`, локальная ветка бывает устаревшей.
+2. `$ARGUMENTS` имя ветки. База `origin/<ветка>`, если такая есть на remote, иначе локальная ветка.
 3. `$ARGUMENTS` ссылка на MR или PR. Хост бери из ссылки.
    1. GitLab, путь `/-/merge_requests/<iid>`. Дифф `GITLAB_HOST=<хост> glab mr diff <iid> --repo <группа/проект>`, метаданные `GITLAB_HOST=<хост> glab mr view <iid> --repo <группа/проект> -F json`.
    2. GitHub, путь `/pull/<n>`. Дифф `gh pr diff <n> --repo <owner/repo>`, метаданные `gh pr view <n> --repo <owner/repo> --json title,body,baseRefName,headRefName`. Нет `gh`, скажи поставить `brew install gh && gh auth login` и остановись.

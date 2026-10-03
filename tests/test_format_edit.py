@@ -10,6 +10,9 @@ FAKE_ESLINT_OK = "#!/bin/sh\nexit 0\n"
 FAKE_ESLINT_CONFIG_ERROR = "#!/bin/sh\necho 'Oops config' >&2\nexit 2\n"
 
 
+FAKE_PRETTIER_PWD = "#!/bin/sh\npwd > \"$(dirname \"$0\")/../../prettier_cwd.log\"\n"
+
+
 class FormatEditTest(HookTestCase):
     def project(self, eslint: str) -> str:
         self.write("proj/eslint.config.mjs", "export default []\n")
@@ -61,6 +64,14 @@ class FormatEditTest(HookTestCase):
             path = self.write(rel, "x\n")
             code, _, _ = self.run_hook("format_edit.py", self.payload(path))
             self.assertEqual(code, 0, rel)
+
+    def test_prettier_runs_from_prettierignore_dir(self) -> None:
+        self.write("mono/.prettierignore", "apps/web/src/gen.ts\n")
+        self.write("mono/node_modules/.bin/prettier", FAKE_PRETTIER_PWD, executable=True)
+        path = self.write("mono/apps/web/src/gen.ts", "x\n")
+        self.run_hook("format_edit.py", self.payload(path))
+        with open(os.path.join(self.home, "mono/prettier_cwd.log")) as f:
+            self.assertEqual(os.path.realpath(f.read().strip()), os.path.join(self.home, "mono"))
 
     def test_format_switch_off_still_records(self) -> None:
         path = self.project(FAKE_ESLINT_FAIL)

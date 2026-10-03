@@ -45,6 +45,19 @@ class TextsTest(unittest.TestCase):
                 for rel in REF_RE.findall(f.read()):
                     self.assertTrue(os.path.isfile(os.path.join(ROOT, rel)), "%s -> %s" % (path, rel))
 
+    def test_review_and_pr_diff_against_remote_base(self) -> None:
+        for name in ("review.md", "pr.md"):
+            with open(os.path.join(ROOT, "commands", name), encoding="utf-8") as f:
+                text = f.read()
+            self.assertNotIn("часть после `origin/`", text, name)
+            self.assertIn("origin/<ветка>", text, name)
+
+    def test_pr_create_command_does_not_wait_for_stdin(self) -> None:
+        with open(os.path.join(ROOT, "commands", "pr.md"), encoding="utf-8") as f:
+            text = f.read()
+        self.assertNotIn("--body-file -", text)
+        self.assertIn("без префикса `origin/`", text)
+
 
 if __name__ == "__main__":
     unittest.main()

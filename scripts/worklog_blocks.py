@@ -20,7 +20,6 @@ DAY_MINUTES = 24 * 60
 TASK_RE = re.compile(r"[A-Z][A-Z0-9]+-\d+")
 JOURNAL_RE = re.compile(r"^- (\d{2}):(\d{2})-(\d{2}):(\d{2}) \([^)]*\) \[(\w+)\] (.*)$")
 CALL_TAGS = {"call", "meeting", "talk"}
-END_EVENTS = {"Stop", "SessionEnd", "UserPromptSubmit"}
 
 Event = Dict[str, Any]
 Key = Tuple[str, str]
@@ -80,7 +79,14 @@ def segments(events: List[Event]) -> List[Event]:
         for i, event in enumerate(items):
             if event["event"] != "UserPromptSubmit":
                 continue
-            end = next((n["second"] for n in items[i + 1:] if n["event"] in END_EVENTS), None)
+            # Stop может быть заблокирован хуком, тогда работа идет до последнего Stop перед следующим промптом
+            end = None
+            for nxt in items[i + 1:]:
+                if nxt["event"] == "UserPromptSubmit":
+                    end = nxt["second"] if end is None else end
+                    break
+                if nxt["event"] in ("Stop", "SessionEnd"):
+                    end = nxt["second"]
             if end is None:
                 end = event["second"] + OPEN_SEGMENT_SECONDS
             result.append(dict(event, end=max(end, event["second"] + 60), task=task_of(event["repo"], event["branch"])))
@@ -178,7 +184,7 @@ def compute(day: str, folder: str) -> Dict[str, Any]:
         r_start, r_end = _round(start), _round(end)
         if r_end <= r_start:
             continue
-        inside = [s for s in segs if start * 60 <= s["second"] < end * 60]
+        inside = [s for s in segs if s["second"] < end * 60 and s["end"] > start * 60 and s["task"] == key[1]]
         block = {"start": _hhmm(r_start), "end": _hhmm(r_end), "minutes": r_end - r_start, "kind": key[0],
                  "task": key[1] if key[0] == "work" else "", "title": "", "topics": [], "notes": [],
                  "repos": [], "branches": []}
