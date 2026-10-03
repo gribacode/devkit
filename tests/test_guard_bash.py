@@ -45,6 +45,18 @@ BLOCKED = [
     "/usr/bin/git push",
     "find . | xargs rm -rf /",
     "sleep 1 & git push",
+    "docker compose down -v",
+    "docker compose -f compose.prod.yml down --volumes",
+    "docker-compose down -v --remove-orphans",
+    "docker volume rm calendar_pgdata",
+    "docker volume prune -f",
+    "docker system prune -a",
+    "npm publish",
+    "pnpm publish --access public",
+    "yarn npm publish",
+    "twine upload dist/*",
+    "uv publish",
+    "poetry publish --build",
 ]
 
 ALLOWED = [
@@ -67,6 +79,13 @@ ALLOWED = [
     'echo "done; sudo nothing"',
     "cat > deploy.sh <<'EOF'\ngit push origin main\nEOF",
     "cat <<EOF > notes.md\nrm -rf /\nEOF\necho ok",
+    "docker compose down",
+    "docker compose up -d",
+    "docker compose -f compose.yml config -q",
+    "docker volume ls",
+    "npm pack",
+    "npm publish --dry-run",
+    'echo "docker volume prune"',
     "",
 ]
 

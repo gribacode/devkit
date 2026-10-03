@@ -28,6 +28,9 @@ def enabled(name: str) -> bool:
     return os.environ.get("DEVKIT_" + name, "1") != "0"
 
 
+def opted_in(name: str) -> bool:
+    return os.environ.get("DEVKIT_" + name) == "1"
+
 def claude_dir() -> str:
     return os.path.join(os.path.expanduser("~"), ".claude")
 

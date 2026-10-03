@@ -23,6 +23,15 @@ class CommonTest(HookTestCase):
             self.assertFalse(_common.enabled("GUARD"))
         self.assertTrue(_common.enabled("TSC"))
 
+    def test_opted_in_needs_explicit_one(self) -> None:
+        with mock.patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("DEVKIT_TESTS", None)
+            self.assertFalse(_common.opted_in("TESTS"))
+            os.environ["DEVKIT_TESTS"] = "1"
+            self.assertTrue(_common.opted_in("TESTS"))
+            os.environ["DEVKIT_TESTS"] = "0"
+            self.assertFalse(_common.opted_in("TESTS"))
+
     def test_session_state_persists_between_calls(self) -> None:
         with _common.session_state("abc") as st:
             st["prompt_at"] = 1.5
