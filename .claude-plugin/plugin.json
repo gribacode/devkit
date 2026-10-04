@@ -1,6 +1,6 @@
 {
   "name": "devkit",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Ревью, описание MR и PR, отработка ревью, учет времени, проверки, архитектура React и NestJS, конспекты в Obsidian и защитные хуки для TS, Node.js, Python, Docker и nginx",
   "author": {
     "name": "Александр Грибашов",
