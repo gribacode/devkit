@@ -31,7 +31,7 @@ def signature(text: str) -> dict:
 
 def rule_names(arch: str) -> list:
     names = []
-    for suffix in ("", ".medium"):
+    for suffix in ("", ".small", ".medium"):
         path = os.path.join(TEMPLATES, arch + suffix + ".json")
         if os.path.isfile(path):
             with open(path, encoding="utf-8") as f:
