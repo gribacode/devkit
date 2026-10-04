@@ -16,8 +16,8 @@ ADAPTED = {
     "skills/writing-for-agents/SKILL-MECHANICS.md": "skills/productivity/writing-for-agents/SKILL-MECHANICS.md",
     "refs/grilling.md": "skills/productivity/grilling/SKILL.md",
     "commands/handoff.md": "skills/productivity/handoff/SKILL.md",
-    "commands/architecture.md": "skills/engineering/improve-codebase-architecture/SKILL.md",
-    "refs/architecture-report.md": "skills/engineering/improve-codebase-architecture/HTML-REPORT.md",
+    "commands/deepen.md": "skills/engineering/improve-codebase-architecture/SKILL.md",
+    "refs/deepen-report.md": "skills/engineering/improve-codebase-architecture/HTML-REPORT.md",
 }
 
 
@@ -43,7 +43,7 @@ class TextsTest(unittest.TestCase):
     def test_refs_exist(self) -> None:
         names = {"style.md", "review-principles.md", "review-react.md", "review-nest.md", "review-shared.md",
                  "pr-structure.md", "stack-typescript.md", "stack-node.md", "stack-python.md", "stack-docker.md",
-                 "stack-nginx.md"}
+                 "stack-nginx.md", "readable-code.md"}
         self.assertTrue(names <= {os.path.basename(p) for p in glob.glob(os.path.join(ROOT, "refs", "*.md"))})
 
     def test_no_yo_and_no_dashes_in_prose(self) -> None:
@@ -74,6 +74,11 @@ class TextsTest(unittest.TestCase):
         self.assertNotIn("--body-file -", text)
         self.assertIn("без префикса `origin/`", text)
 
+    def test_code_skills_point_to_readable_code(self) -> None:
+        for name in ("typescript", "python", "node", "readable-code"):
+            with open(os.path.join(ROOT, "skills", name, "SKILL.md"), encoding="utf-8") as f:
+                self.assertIn("${CLAUDE_PLUGIN_ROOT}/refs/readable-code.md", f.read(), name)
+
     def test_skill_frontmatter(self) -> None:
         skills = glob.glob(os.path.join(ROOT, "skills", "*", "SKILL.md"))
         self.assertTrue(STACK_SKILLS <= {os.path.basename(os.path.dirname(p)) for p in skills})
@@ -93,7 +98,7 @@ class TextsTest(unittest.TestCase):
                 self.assertIn("Адаптировано из mattpocock/skills (MIT), `%s`." % source, f.read(), rel)
 
     def test_new_commands_are_manual_only(self) -> None:
-        for name in ("grill.md", "handoff.md", "architecture.md", "arch.md", "note.md"):
+        for name in ("grill.md", "handoff.md", "deepen.md", "arch.md", "note.md"):
             path = os.path.join(ROOT, "commands", name)
             if not os.path.exists(path):
                 self.fail("нет %s" % name)

@@ -31,7 +31,7 @@ claude plugin install devkit@devkit
 | `/check [база]` | lint, типы, тесты по затронутым пакетам JS, Python, Docker, nginx |
 | `/arch init\|detect\|check [путь]` | выбор архитектуры React или NestJS, детект в существующем коде, проверка границ с baseline |
 | `/grill [тема]` | допрос по плану раундами с рекомендуемыми ответами |
-| `/architecture [путь]` | HTML-отчет с кандидатами на углубление модулей и разбор выбранного |
+| `/deepen [путь]` | кандидаты на углубление модулей в терминале и разбор выбранного |
 | `/handoff [задача]` | документ для следующей сессии в `$TMPDIR` |
 | `/agent-lint [путь]` | agnix по конфигам агента |
 | `/note <тема> [что увидел]` | конспект в хранилище Obsidian по правилам хранилища, в фоне |
@@ -61,9 +61,9 @@ pipx install gixy-ng
 
 ## Скиллы
 
-Срабатывают сами по ситуации. `typescript`, `node`, `python`, `docker`, `nginx` ведут на правила в `refs/stack-*.md`, те же правила читает `/review`. `codebase-design` про глубокие модули и швы. `writing-for-agents` про CLAUDE.md и AGENTS.md.
+Срабатывают сами по ситуации. `typescript`, `node`, `python`, `docker`, `nginx` ведут на правила в `refs/stack-*.md`, те же правила читает `/review`. `codebase-design` про глубокие модули и швы. `writing-for-agents` про CLAUDE.md и AGENTS.md. `readable-code` про имена, абзацы и числа в коде, на него ссылаются `typescript`, `python`, `node` и `/review`. `spec-plan` держит спеки и планы короткими и читаемыми.
 
-`/grill`, `/handoff`, `/architecture`, `codebase-design` и `writing-for-agents` адаптированы из [mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
+`/grill`, `/handoff`, `/deepen`, `codebase-design` и `writing-for-agents` адаптированы из [mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
 
 ## Архитектура
 
