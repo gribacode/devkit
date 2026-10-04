@@ -24,7 +24,7 @@ def run(args: list, stdin: str = "") -> subprocess.CompletedProcess:
 class TemplatesTest(unittest.TestCase):
     def test_every_arch_has_template(self) -> None:
         names = {os.path.basename(p)[:-5] for p in glob.glob(os.path.join(arch_contract.TEMPLATES, "*.json"))}
-        self.assertEqual(names, set(arch_contract.ARCHS) | {"base", "react-evolution.medium"})
+        self.assertEqual(names, set(arch_contract.ARCHS) | {"base", "react-evolution.small", "react-evolution.medium"})
 
     def test_rules_valid_and_bound_to_root(self) -> None:
         seen = set()
@@ -66,6 +66,8 @@ class RenderTest(unittest.TestCase):
 
     def test_variant(self) -> None:
         self.assertNotIn("ed-cross-feature", rules(arch_contract.render_depcruise("react-evolution")))
+        small = arch_contract.render_depcruise("react-evolution", variant="small")
+        self.assertEqual(rules(small), rules(arch_contract.render_depcruise("react-evolution")))
         self.assertIn("ed-cross-feature", rules(arch_contract.render_depcruise("react-evolution", variant="medium")))
 
     def test_unknown(self) -> None:
